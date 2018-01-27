@@ -141,7 +141,7 @@ ModelImporter:
     400132: Spine2
     2100000: parasitezombie_Material
     4300000: parasiteZombie
-    7400000: Rifle Turn
+    7400000: Rifle Turn Right 30
     9500000: //RootNode
     13700000: parasiteZombie
   externalObjects: {}
@@ -172,7 +172,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Rifle Turn
+      name: Rifle Turn Right 30
       takeName: mixamo.com
       firstFrame: 0
       lastFrame: 46

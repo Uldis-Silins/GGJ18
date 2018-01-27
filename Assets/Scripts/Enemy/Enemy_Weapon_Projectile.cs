@@ -14,6 +14,9 @@ public class Enemy_Weapon_Projectile : MonoBehaviour
     private Vector3 m_prevPosition;
 
     private Player_Health m_playerHealth;
+    private Player_Weapon m_playerWeapon;
+    private Player_HitHint m_hitHint;
+
     private int m_playerLayer;
     private int m_sabreLayer;
     private int m_enemyLayer;
@@ -23,10 +26,15 @@ public class Enemy_Weapon_Projectile : MonoBehaviour
     private void Awake()
     {
         m_rigidbody = transform.GetComponent<Rigidbody>();
+
         m_playerLayer = LayerMask.GetMask("Player");
         m_sabreLayer = LayerMask.GetMask("Sabre");
         m_enemyLayer = LayerMask.GetMask("Enemy");
-        m_playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<Player_Health>();
+
+        GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+        m_playerHealth = playerObject.GetComponent<Player_Health>();
+        m_playerWeapon = playerObject.GetComponent<Player_Weapon>();
+        m_hitHint = playerObject.GetComponent<Player_HitHint>();
     }
 
     void Start()
@@ -65,6 +73,8 @@ public class Enemy_Weapon_Projectile : MonoBehaviour
         m_rigidbody.AddForce(transform.forward * speed, ForceMode.VelocityChange);
         m_reflected = false;
 
+        m_hitHint.AddProjectile(transform);
+
         if (IsInvoking("Disable"))
         {
             CancelInvoke("Disable");
@@ -75,13 +85,20 @@ public class Enemy_Weapon_Projectile : MonoBehaviour
 
     public void Disable()
     {
+        if (!m_reflected)
+        {
+            m_hitHint.RemoveProjectile(transform);
+        }
+
         m_rigidbody.velocity = Vector3.zero;
         gameObject.SetActive(false);
     }
 
     private void Reflect()
     {
+        m_hitHint.RemoveProjectile(transform);
         m_reflected = true;
         m_rigidbody.velocity = -m_rigidbody.velocity.normalized * reflectedSpeed;
+        m_playerWeapon.OnReflect();
     }
 }

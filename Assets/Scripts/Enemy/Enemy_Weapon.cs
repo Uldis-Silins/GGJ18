@@ -32,6 +32,7 @@ public class Enemy_Weapon : MonoBehaviour
         for (int i = 0; i < SPAWNED_PROJECTILES; i++)
         {
             m_projectiles[i] = Instantiate<Enemy_Weapon_Projectile>(projectilePrefab, transform.position, Quaternion.identity);
+            m_projectiles[i].gameObject.name += i;
             m_projectiles[i].Disable();
         }
 

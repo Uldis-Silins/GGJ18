@@ -27,5 +27,10 @@ public class Player_Health : MonoBehaviour
     {
         m_curHealth -= damageAmount;
         healthbar.value = (float)m_curHealth / maxHealth;
+
+        if(m_curHealth <= 0)
+        {
+            Level_Manager.Instance.ChangeGameState(Level_Manager.GameState.GameOver);   // TODO: Move to Level_Manager
+        }
     }
 }

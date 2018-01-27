@@ -10,12 +10,16 @@ public class Enemy_Health : MonoBehaviour
     private int m_curHealth;
     private bool m_dead;
 
-    // Use this for initialization
+    private void Start()
+    {
+        ragdoll.transform.SetParent(null);
+    }
+
     void OnEnable()
     {
         m_dead = false;
         m_curHealth = maxHealth;
-        ragdoll.transform.SetParent(null);
+        
         ragdoll.gameObject.SetActive(false);
     }
 

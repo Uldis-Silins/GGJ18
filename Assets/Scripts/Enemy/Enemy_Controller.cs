@@ -20,6 +20,7 @@ public class Enemy_Controller : MonoBehaviour
 
     private readonly int m_fireAnimHash = Animator.StringToHash("Firing");
     private readonly int m_turnAnimHash = Animator.StringToHash("Turn");
+    private readonly int m_moveAnimHash = Animator.StringToHash("Move");
 
     private Enemy_Animator_RootMotion m_motion;
     private int m_curWaypointID;
@@ -54,7 +55,7 @@ public class Enemy_Controller : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawLine(CalculateWeaponSpread(), transform.position);
+        //Gizmos.DrawLine(CalculateWeaponSpread(), transform.position);
     }
 
     // Update is called once per frame
@@ -105,6 +106,7 @@ public class Enemy_Controller : MonoBehaviour
 
         //Debug.Log(angle);
         //animator.SetFloat(m_turnAnimHash, angle);
+        //transform.rotation = m_motion.animRootRotation;
 
         //transform.rotation = m_motion.animRootRotation;
 
@@ -161,9 +163,12 @@ public class Enemy_Controller : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
         transform.position += transform.forward * 5f * Time.deltaTime;
+        //animator.SetFloat(m_moveAnimHash, 1);
+        //transform.position += m_motion.animMoveDelta;
 
         if (Vector3.Distance(waypoints[m_curWaypointID].position, transform.position) < 0.5f)
         {
+            animator.SetFloat(m_moveAnimHash, 0);
             ExitState_Move(EnterState_Attack);   
         }
     }

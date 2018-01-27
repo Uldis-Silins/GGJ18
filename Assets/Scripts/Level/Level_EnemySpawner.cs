@@ -49,8 +49,13 @@ public class Level_EnemySpawner : MonoBehaviour
 
     private void SpawnEnemy()
     {
-        m_mySpawnedEnemy.transform.SetPositionAndRotation(transform.position, transform.rotation);
-        m_mySpawnedEnemy.gameObject.SetActive(true);
+        if (Level_Manager.Instance.SpawnWavesLeft > 0)
+        {
+            m_mySpawnedEnemy.transform.SetPositionAndRotation(transform.position, transform.rotation);
+            m_mySpawnedEnemy.gameObject.SetActive(true);
+        }
+
+        Level_Manager.Instance.AddSpawnWave();
     }
 
     public void RquestRespawn()

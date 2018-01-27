@@ -4,7 +4,7 @@
 PlayerSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 14
-  productGUID: 00000000000000000000000000000000
+  productGUID: cfc0851e82da8fc47a0e56f0840b8641
   AndroidProfiler: 0
   AndroidFilterTouchesWhenObscured: 0
   defaultScreenOrientation: 4
@@ -736,7 +736,7 @@ PlayerSettings:
   facebookSdkVersion: 7.9.1
   apiCompatibilityLevel: 2
   cloudProjectId: c33180f9-d334-4429-9cd7-519fa5a939b5
-  projectName: CorridorTest
+  projectName: GGJ18
   organizationId: dissid
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
