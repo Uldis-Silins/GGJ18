@@ -97,7 +97,6 @@ public class Enemy_Controller : MonoBehaviour
 
     private void EnterState_Attack()
     {
-        Debug.Log("Enter state Attack; t: " + Time.time);
         Vector3 targetDir = player.position - transform.position;
         Quaternion targetRotation = Quaternion.LookRotation(targetDir);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
@@ -120,8 +119,6 @@ public class Enemy_Controller : MonoBehaviour
 
     private void State_Attack()
     {
-        Debug.Log("State Attack; t: " + Time.time);
-        
         weapon.muzzle.LookAt(fireTarget.position + CalculateWeaponSpread());
         weapon.Fire();
 
@@ -140,8 +137,6 @@ public class Enemy_Controller : MonoBehaviour
 
     private void EnterState_Move()
     {
-        Debug.Log("Enter state move; t: " + Time.time);
-        
         Vector3 targetDir = waypoints[m_curWaypointID].position - transform.position;
         Quaternion targetRotation = Quaternion.LookRotation(targetDir);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
@@ -161,7 +156,6 @@ public class Enemy_Controller : MonoBehaviour
 
     private void State_Move()
     {
-        Debug.Log("State Move; t: " + Time.time);
         Vector3 targetDir = waypoints[m_curWaypointID].position - transform.position;
         Quaternion targetRotation = Quaternion.LookRotation(targetDir);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);

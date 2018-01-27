@@ -15,6 +15,14 @@ public class Player_Health : MonoBehaviour
         healthbar.value = (float)m_curHealth / maxHealth;
     }
 
+    private void OnDrawGizmos()
+    {
+        Color tempColor = Gizmos.color;
+        Gizmos.color = Color.green;
+        Gizmos.DrawSphere(transform.position, 1f);
+        Gizmos.color = tempColor;
+    }
+
     public void SetDamage(int damageAmount)
     {
         m_curHealth -= damageAmount;
