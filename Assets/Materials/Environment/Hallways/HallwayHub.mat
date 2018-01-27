@@ -12,6 +12,7 @@ Material:
     _SPECGLOSSMAP _UVSEC_UV1
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
@@ -89,7 +90,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 2.1, g: 1.8814806, b: 1.6830881, a: 1}
+    - _EmissionColor: {r: 1.865, g: 1.6709341, b: 1.4947426, a: 1}
     - _EmissionColorUI: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColorWithMapUI: {r: 0.80645907, g: 0.8714095, b: 0.89411765, a: 1}
     - _MetaDiffuseAdd: {r: 0, g: 0, b: 0, a: 1}
