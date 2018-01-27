@@ -162,9 +162,9 @@ public class Enemy_Controller : MonoBehaviour
         Quaternion targetRotation = Quaternion.LookRotation(targetDir);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
-        transform.position += transform.forward * 5f * Time.deltaTime;
-        //animator.SetFloat(m_moveAnimHash, 1);
-        //transform.position += m_motion.animMoveDelta;
+        //transform.position += transform.forward * 5f * Time.deltaTime;
+        animator.SetFloat(m_moveAnimHash, 1);
+        transform.position += m_motion.animMoveDelta;
 
         if (Vector3.Distance(waypoints[m_curWaypointID].position, transform.position) < 0.5f)
         {

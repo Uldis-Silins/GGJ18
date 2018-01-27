@@ -41,7 +41,11 @@ public class Player_HitHint : MonoBehaviour
             float t = 1f - (m_hintFadeTimer / hintFadeTime);
 
             hintIcon.color = Color.Lerp(Color.white, m_whiteAlpha, t);
-            hintIcon.transform.localScale = Vector3.Lerp(Vector3.one * 0.1f, Vector3.one, t);
+
+            if (m_curProjectile != null)
+            {
+                hintIcon.transform.localScale = Vector3.Lerp(Vector3.one * 0.1f, Vector3.one, Vector3.Distance(m_curProjectile.position, transform.position) / hintDistance);
+            }
 
             if (m_hintFadeTimer < 0)
             {

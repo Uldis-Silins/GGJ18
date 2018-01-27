@@ -33,6 +33,6 @@ public class Enemy_Animator_RootMotion : MonoBehaviour
     private void OnAnimatorMove()
     {
         animMoveDelta = m_animator.deltaPosition;
-        animRootRotation = m_animator.rootRotation;
+        //animRootRotation = m_animator.rootRotation;
     }
 }
