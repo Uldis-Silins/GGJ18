@@ -4,7 +4,6 @@ using System.Collections;
 public class Player_Health : MonoBehaviour
 {
     public int maxHealth = 100;
-    public UnityEngine.UI.Slider healthbar;
 
     private int m_curHealth;
 
@@ -12,7 +11,7 @@ public class Player_Health : MonoBehaviour
     void OnEnable()
     {
         m_curHealth = maxHealth;
-        healthbar.value = (float)m_curHealth / maxHealth;
+        Level_Manager.Instance.SetHealth((float)m_curHealth / maxHealth);
     }
 
     private void OnDrawGizmos()
@@ -26,11 +25,6 @@ public class Player_Health : MonoBehaviour
     public void SetDamage(int damageAmount)
     {
         m_curHealth -= damageAmount;
-        healthbar.value = (float)m_curHealth / maxHealth;
-
-        if(m_curHealth <= 0)
-        {
-            Level_Manager.Instance.ChangeGameState(Level_Manager.GameState.GameOver);   // TODO: Move to Level_Manager
-        }
+        Level_Manager.Instance.SetHealth((float)m_curHealth / maxHealth);
     }
 }

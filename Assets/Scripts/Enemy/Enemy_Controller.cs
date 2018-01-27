@@ -49,6 +49,8 @@ public class Enemy_Controller : MonoBehaviour
 
     private void OnDisable()
     {
+        animator.SetFloat(m_moveAnimHash, 0);
+        animator.SetBool(m_fireAnimHash, false);
         m_motion.applyFireAnimCorrection = false;
         m_currentState = EnterState_Idle;
     }
@@ -124,16 +126,17 @@ public class Enemy_Controller : MonoBehaviour
         weapon.muzzle.LookAt(fireTarget.position + CalculateWeaponSpread());
         weapon.Fire();
 
-        m_fireTimer -= Time.deltaTime;
-
         if (m_fireTimer < 0)
         {
             ExitState_Attack(EnterState_Idle);
         }
+
+        m_fireTimer -= Time.deltaTime;
     }
 
     private void ExitState_Attack(State targetState)
     {
+        animator.SetBool(m_fireAnimHash, false);
         m_currentState = targetState;
     }
 
@@ -168,13 +171,13 @@ public class Enemy_Controller : MonoBehaviour
 
         if (Vector3.Distance(waypoints[m_curWaypointID].position, transform.position) < 0.5f)
         {
-            animator.SetFloat(m_moveAnimHash, 0);
             ExitState_Move(EnterState_Attack);   
         }
     }
 
     private void ExitState_Move(State targetState)
     {
+        animator.SetFloat(m_moveAnimHash, 0);
         m_curWaypointID = Random.Range(0, waypoints.Length);
         m_currentState = targetState;
     }

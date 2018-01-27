@@ -10,9 +10,12 @@ public class Level_Manager : MonoBehaviour
     public GameObject winStateUI;
     public GameObject gameOverStateUI;
 
+    public GameObject[] hudObjects;
+
     public Level_EnemySpawner[] enemySpawners;
 
-    public Text scoreText;
+    public TextMesh scoreText;
+    public Transform healthbar;
 
     [SerializeField]
     private GameState m_curGameState;
@@ -50,7 +53,7 @@ public class Level_Manager : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject);
+            Debug.LogError("More than one Level_Manager instance");
         }
     }
 
@@ -72,6 +75,17 @@ public class Level_Manager : MonoBehaviour
         scoreText.text = m_score.ToString();
     }
 
+    public void SetHealth(float healthPercent)
+    {
+        Vector3 scaleAmount = new Vector3(healthPercent, healthbar.localScale.y, healthbar.localScale.z);
+        healthbar.localScale = scaleAmount;
+
+        if(healthPercent <= 0)
+        {
+            ChangeGameState(GameState.GameOver);
+        }
+    }
+
     public void AddSpawnWave()
     {
         m_curSpawnWave++;
@@ -90,19 +104,30 @@ public class Level_Manager : MonoBehaviour
                 playStateUI.SetActive(true);
                 gameOverStateUI.SetActive(false);
                 winStateUI.SetActive(false);
+                ToggleHUD(true);
                 break;
             case GameState.Win:
                 playStateUI.SetActive(false);
                 gameOverStateUI.SetActive(false);
                 winStateUI.SetActive(true);
+                ToggleHUD(false);
                 break;
             case GameState.GameOver:
                 playStateUI.SetActive(false);
                 gameOverStateUI.SetActive(true);
                 winStateUI.SetActive(false);
+                ToggleHUD(false);
                 break;
             default:
                 break;
+        }
+    }
+
+    private void ToggleHUD(bool toggle)
+    {
+        for (int i = 0; i < hudObjects.Length; i++)
+        {
+            hudObjects[i].SetActive(toggle);
         }
     }
 }
