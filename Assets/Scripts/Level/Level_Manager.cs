@@ -1,9 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UI;
 
 public class Level_Manager : MonoBehaviour
 {
+    public delegate void StateChangeHandler(GameState state);
+    public event StateChangeHandler onChangeState;
+
     public enum GameState { Play, Win, GameOver }
 
     public GameObject playStateUI;
@@ -14,6 +18,10 @@ public class Level_Manager : MonoBehaviour
 
     public Level_EnemySpawner[] enemySpawners;
 
+    public List<Level_EnemySpawner> activeSpawners;
+
+    public Player_HitHint hitHint;  // Projectile counter
+
     public TextMesh scoreText;
     public Transform healthbar;
 
@@ -21,9 +29,11 @@ public class Level_Manager : MonoBehaviour
     private GameState m_curGameState;
 
     private int m_score = 0;
-    private int m_curSpawnWave;
+    private int m_spawnedEnemies;
 
-    private int m_totalWaves = 3;
+    private int m_totalEnemies = 0;
+
+    private int m_addSpawnerWaveCount = 3;
 
     private static Level_Manager m_instance = null;
 
@@ -40,10 +50,7 @@ public class Level_Manager : MonoBehaviour
         }
     }
 
-    public int SpawnWavesLeft
-    {
-        get { return m_totalWaves - m_curSpawnWave; }
-    }
+    public GameState CurrentGameState { get { return m_curGameState; } }
 
     void Awake()
     {
@@ -51,28 +58,67 @@ public class Level_Manager : MonoBehaviour
         {
             m_instance = this;
         }
-        else
-        {
-            Debug.LogError("More than one Level_Manager instance");
-        }
+
+        activeSpawners = new List<Level_EnemySpawner>();
     }
 
     private void Start()
     {
         m_score = 0;
-        m_curSpawnWave = 0;
+        m_spawnedEnemies = 0;
+
+        if(m_totalEnemies <= 0)
+        {
+            m_totalEnemies = enemySpawners.Length * m_addSpawnerWaveCount;
+        }
 
         playStateUI.SetActive(false);
         gameOverStateUI.SetActive(false);
         winStateUI.SetActive(false);
 
+        StartCoroutine(StartGameDelayed());
+    }
+
+    IEnumerator StartGameDelayed()
+    {
+        yield return new WaitForSeconds(3f);
         ChangeGameState(GameState.Play);
+
+        int spawnerID = activeSpawners.Count;
+        activeSpawners.Add(enemySpawners[spawnerID]);
+        activeSpawners[spawnerID].enabled = true;
+        activeSpawners[spawnerID].SpawnEnemy(true);
     }
 
     public void AddScore(int scoreAmount)
     {
         m_score += scoreAmount;
         scoreText.text = m_score.ToString();
+
+        if (m_spawnedEnemies >= m_totalEnemies)
+        {
+            StartCoroutine(WaitLasersForWin());
+        }
+        else
+        {
+            if (m_score % m_addSpawnerWaveCount == 0)
+            {
+                int spawnerID = activeSpawners.Count;
+                activeSpawners.Add(enemySpawners[spawnerID]);
+                activeSpawners[spawnerID].enabled = true;
+                activeSpawners[spawnerID].SpawnEnemy(true);
+            }
+        }
+    }
+
+    IEnumerator WaitLasersForWin()
+    {
+        while (hitHint.IncomingProjectiles.Count > 0)
+        {
+            yield return null;
+        }
+
+        ChangeGameState(GameState.Win);
     }
 
     public void SetHealth(float healthPercent)
@@ -86,18 +132,10 @@ public class Level_Manager : MonoBehaviour
         }
     }
 
-    public void AddSpawnWave()
-    {
-        m_curSpawnWave++;
-
-        if (m_curSpawnWave > m_totalWaves)
-        {
-            ChangeGameState(GameState.Win);
-        }
-    }
-
     public void ChangeGameState(GameState curState)
     {
+        m_curGameState = curState;
+
         switch (curState)
         {
             case GameState.Play:
@@ -121,6 +159,21 @@ public class Level_Manager : MonoBehaviour
             default:
                 break;
         }
+
+        OnChangeState(m_curGameState);
+    }
+
+    public void OnEnemySpawned()
+    {
+        m_spawnedEnemies++;
+
+        if(m_spawnedEnemies >= m_totalEnemies)
+        {
+            foreach (var spawner in activeSpawners)
+            {
+                spawner.enabled = false;
+            }
+        }
     }
 
     private void ToggleHUD(bool toggle)
@@ -128,6 +181,14 @@ public class Level_Manager : MonoBehaviour
         for (int i = 0; i < hudObjects.Length; i++)
         {
             hudObjects[i].SetActive(toggle);
+        }
+    }
+
+    void OnChangeState(GameState state)
+    {
+        if(onChangeState != null)
+        {
+            onChangeState(state);
         }
     }
 }

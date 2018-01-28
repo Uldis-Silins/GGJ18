@@ -5,6 +5,8 @@ public class Player_Health : MonoBehaviour
 {
     public int maxHealth = 100;
 
+    public Player_Weapon wapon;
+
     private int m_curHealth;
 
     // Use this for initialization
@@ -25,6 +27,7 @@ public class Player_Health : MonoBehaviour
     public void SetDamage(int damageAmount)
     {
         m_curHealth -= damageAmount;
+        wapon.OnHit();
         Level_Manager.Instance.SetHealth((float)m_curHealth / maxHealth);
     }
 }

@@ -17,6 +17,11 @@ public class Player_HitHint : MonoBehaviour
 
     private int m_hintLayer;
 
+    public List<Transform> IncomingProjectiles
+    {
+        get { return m_incomingProjectiles; }
+    }
+
     private void Awake()
     {
         m_incomingProjectiles = new List<Transform>();
@@ -30,6 +35,8 @@ public class Player_HitHint : MonoBehaviour
         hintIcon.color = m_whiteAlpha;
         m_hintFadeTimer = hintFadeTime;
         m_hintEnabled = false;
+
+        Level_Manager.Instance.hitHint = this;
     }
 
     private void LateUpdate()
@@ -38,19 +45,19 @@ public class Player_HitHint : MonoBehaviour
         {
             m_hintFadeTimer -= Time.deltaTime;
 
-            float t = 1f - (m_hintFadeTimer / hintFadeTime);
-
-            hintIcon.color = Color.Lerp(Color.white, m_whiteAlpha, t);
-
             if (m_curProjectile != null)
             {
-                hintIcon.transform.localScale = Vector3.Lerp(Vector3.one * 0.1f, Vector3.one, Vector3.Distance(m_curProjectile.position, transform.position) / hintDistance);
+                float t = Vector3.Distance(m_curProjectile.position, transform.position) / hintDistance;
+                hintIcon.transform.localScale = Vector3.Lerp(Vector3.one * 0.7f, Vector3.one * 0.1f, t);
+                hintIcon.color = Color.Lerp(Color.white, m_whiteAlpha, t);
             }
-
-            if (m_hintFadeTimer < 0)
+            else
             {
-                //hintIcon.gameObject.SetActive(false);
-                m_hintEnabled = false;
+                if (m_hintFadeTimer < 0)
+                {
+                    hintIcon.color = m_whiteAlpha;
+                    m_hintEnabled = false;
+                }
             }
         }
 
@@ -62,17 +69,16 @@ public class Player_HitHint : MonoBehaviour
             if (Physics.Raycast(m_curProjectile.position, m_curProjectile.forward, out hit, hintDistance, m_hintLayer))
             {
                 Debug.DrawLine(m_curProjectile.position, hit.point);
-                DrawHint(hit.point);
+                DrawHint();
             }
         }
     }
 
-    public void DrawHint(Vector3 pos)
+    public void DrawHint()
     {
         m_hintFadeTimer = hintFadeTime;
-        //hintIcon.gameObject.SetActive(true);
         hintIcon.color = Color.white;
-        hintIcon.transform.position = Camera.main.WorldToScreenPoint(pos);
+        hintIcon.transform.position = Camera.main.WorldToScreenPoint(m_curProjectile.position);
         m_hintEnabled = true;
     }
 

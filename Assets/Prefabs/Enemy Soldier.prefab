@@ -4655,10 +4655,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efa3791f36516b6498dc3e685601b589, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animMoveDelta: {x: 0, y: 0, z: 0}
+  animMoveDelta: {x: 0.001648913, y: 0.00006680921, z: -0.0011143147}
   animRootRotation: {x: 0, y: 0, z: 0, w: 0}
   aimTarget: {fileID: 0}
-  fireAnimOffset: {x: 0, y: 50, z: 0}
+  fireAnimOffset: {x: 28.5, y: 40.4, z: 15}
   applyFireAnimCorrection: 0
 --- !u!114 &114745052754977238
 MonoBehaviour:

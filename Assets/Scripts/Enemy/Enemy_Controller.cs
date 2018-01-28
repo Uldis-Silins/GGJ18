@@ -25,7 +25,7 @@ public class Enemy_Controller : MonoBehaviour
     private Enemy_Animator_RootMotion m_motion;
     private int m_curWaypointID;
 
-    private float m_fireTimer = 10f;
+    private float m_fireTimer = 3f;
 
     private void Awake()
     {
@@ -43,16 +43,12 @@ public class Enemy_Controller : MonoBehaviour
     // Use this for initialization
     void Start ()
     {
-        m_curWaypointID = Random.Range(0, waypoints.Length);
         m_currentState = new State(EnterState_Idle);
-	}
+    }
 
     private void OnDisable()
     {
-        animator.SetFloat(m_moveAnimHash, 0);
-        animator.SetBool(m_fireAnimHash, false);
-        m_motion.applyFireAnimCorrection = false;
-        m_currentState = EnterState_Idle;
+        
     }
 
     private void OnDrawGizmos()
@@ -68,6 +64,15 @@ public class Enemy_Controller : MonoBehaviour
             m_currentState();
         }
 	}
+
+    public void OnSpawn()
+    {
+        m_curWaypointID = 0;
+        //animator.SetFloat(m_moveAnimHash, 0);
+        //animator.SetBool(m_fireAnimHash, false);
+        m_motion.applyFireAnimCorrection = false;
+        m_currentState = EnterState_Idle;
+    }
 
     private void EnterState_Idle()
     {

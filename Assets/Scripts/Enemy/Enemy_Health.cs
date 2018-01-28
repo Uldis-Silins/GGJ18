@@ -21,6 +21,13 @@ public class Enemy_Health : MonoBehaviour
         m_curHealth = maxHealth;
         
         ragdoll.gameObject.SetActive(false);
+
+        Level_Manager.Instance.onChangeState += HandleGameOver;
+    }
+
+    private void OnDisable()
+    {
+        Level_Manager.Instance.onChangeState -= HandleGameOver;
     }
 
 
@@ -30,12 +37,20 @@ public class Enemy_Health : MonoBehaviour
 
         if(!m_dead && m_curHealth <= 0)
         {
-            Level_Manager.Instance.AddScore(1);
-
             ragdoll.SpawnRagdoll(transform.position, transform.rotation, GetComponent<Rigidbody>().velocity);
             gameObject.SetActive(false);
-            mySpawner.RquestRespawn();
             m_dead = true;
+
+            Level_Manager.Instance.AddScore(1);
+            mySpawner.SpawnEnemy();
+        }
+    }
+
+    void HandleGameOver(Level_Manager.GameState state)
+    {
+        if(state == Level_Manager.GameState.Win)
+        {
+            SetDamage(maxHealth);
         }
     }
 }

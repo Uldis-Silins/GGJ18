@@ -10,6 +10,7 @@ public class Enemy_Weapon : MonoBehaviour
     public int rateOfFire = 60;
 
     public Enemy_Weapon_Projectile projectilePrefab;
+    public Rigidbody dummyProjectile;
 
     private float m_fireDelay;
     private float m_fireTimer;
@@ -37,10 +38,10 @@ public class Enemy_Weapon : MonoBehaviour
         }
 
         m_curProjectileID = 0;
-	}
-	
-	// Update is called once per frame
-	void Update ()
+    }
+
+    // Update is called once per frame
+    void Update ()
     {
         m_fireTimer -= Time.deltaTime;
 	}

@@ -11,18 +11,30 @@ public class Level_EnemySpawner : MonoBehaviour
 
     private Enemy_Controller m_mySpawnedEnemy;
 
-	// Use this for initialization
-	void Start ()
+    private float m_respawnTimer;
+    private bool m_respawnPending;
+
+    // Use this for initialization
+    void Start ()
     {
         m_mySpawnedEnemy = Instantiate(enemyPrefab, transform.position, transform.rotation);
         m_mySpawnedEnemy.GetComponent<Enemy_Health>().mySpawner = this;
         m_mySpawnedEnemy.waypoints = this.waypoints;
+        m_mySpawnedEnemy.gameObject.SetActive(false);
     }
 	
 	// Update is called once per frame
 	void Update ()
     {
-		
+		if(m_respawnPending && m_respawnTimer <= 0f)
+        {
+            m_mySpawnedEnemy.transform.SetPositionAndRotation(transform.position, transform.rotation);
+            m_mySpawnedEnemy.gameObject.SetActive(true);
+            m_respawnPending = false;
+            Level_Manager.Instance.OnEnemySpawned();
+        }
+
+        m_respawnTimer -= Time.deltaTime;
 	}
 
     private void OnDrawGizmos()
@@ -47,19 +59,14 @@ public class Level_EnemySpawner : MonoBehaviour
         Gizmos.color = oldGizmosColor;
     }
 
-    private void SpawnEnemy()
+    public void SpawnEnemy(bool immidiate = false)
     {
-        if (Level_Manager.Instance.SpawnWavesLeft > 0)
+        if (!m_respawnPending)
         {
-            m_mySpawnedEnemy.transform.SetPositionAndRotation(transform.position, transform.rotation);
-            m_mySpawnedEnemy.gameObject.SetActive(true);
+            m_mySpawnedEnemy.OnSpawn();
+            m_respawnPending = true;
+
+            m_respawnTimer = immidiate ? 0f : respawnDelay;
         }
-
-        Level_Manager.Instance.AddSpawnWave();
-    }
-
-    public void RquestRespawn()
-    {
-        Invoke("SpawnEnemy", respawnDelay);
     }
 }
