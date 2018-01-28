@@ -13,7 +13,13 @@ public class Player_Health : MonoBehaviour
     void OnEnable()
     {
         m_curHealth = maxHealth;
-        Level_Manager.Instance.SetHealth((float)m_curHealth / maxHealth);
+
+        Level_Manager.Instance.onChangeState += HandleGameStart;
+    }
+
+    private void OnDisable()
+    {
+        Level_Manager.Instance.onChangeState -= HandleGameStart;
     }
 
     private void OnDrawGizmos()
@@ -28,6 +34,20 @@ public class Player_Health : MonoBehaviour
     {
         m_curHealth -= damageAmount;
         wapon.OnHit();
+        Level_Manager.Instance.SetHealth((float)m_curHealth / maxHealth);
+    }
+
+    void HandleGameStart(Level_Manager.GameState state)
+    {
+        if (state == Level_Manager.GameState.Play)
+        {
+            ResetLevel();
+        }
+    }
+
+    void ResetLevel()
+    {
+        m_curHealth = maxHealth;
         Level_Manager.Instance.SetHealth((float)m_curHealth / maxHealth);
     }
 }

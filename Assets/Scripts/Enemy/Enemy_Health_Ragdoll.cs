@@ -6,6 +6,10 @@ public class Enemy_Health_Ragdoll : MonoBehaviour
     public Transform modelRoot;
     public Transform ragdollRoot;
 
+    public AudioSource deathSource;
+
+    public AudioClip[] deathClips;
+
     // Use this for initialization
     void Start()
     {
@@ -18,6 +22,9 @@ public class Enemy_Health_Ragdoll : MonoBehaviour
         transform.rotation = rotation;
 
         gameObject.SetActive(true);
+
+        deathSource.clip = deathClips[Random.Range(0, deathClips.Length)];
+        deathSource.Play();
 
         CopyTransformsRecursive(modelRoot, ragdollRoot, moveVelocity);
     }

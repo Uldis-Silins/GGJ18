@@ -59,9 +59,17 @@ public class Enemy_Weapon_Projectile : MonoBehaviour
             Disable();
         }
 
-        if (!m_reflected && Physics.Linecast(transform.position, transform.position + transform.forward * sabreLookAhead, m_sabreLayer))
+        if (!m_reflected)
         {
-            Reflect();
+            if (Physics.Linecast(transform.position, transform.position + transform.forward * sabreLookAhead, m_sabreLayer))
+            {
+                Reflect();
+            }
+
+            if(Vector3.Dot(transform.forward, m_playerHealth.transform.position - transform.position) < -2f)
+            {
+                Disable();
+            }
         }
     }
 

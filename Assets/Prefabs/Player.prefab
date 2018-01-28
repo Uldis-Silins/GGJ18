@@ -89,24 +89,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1020045709608744
-GameObject:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 4537693854299718}
-  - component: {fileID: 20441850627571966}
-  - component: {fileID: 124437528665234998}
-  - component: {fileID: 114860208745008564}
-  m_Layer: 10
-  m_Name: Sabre FX Camera
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
 --- !u!1 &1035961811399196
 GameObject:
   m_ObjectHideFlags: 1
@@ -1637,10 +1619,10 @@ Transform:
   m_GameObject: {fileID: 1277623093429372}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0.3}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 7.020407, y: 2.5311134, z: 1}
   m_Children: []
   m_Father: {fileID: 4679358678468540}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4181908855768726
 Transform:
@@ -2108,19 +2090,6 @@ Transform:
   m_Father: {fileID: 4245229830220144}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -15.715001, y: -83.885, z: 88.338005}
---- !u!4 &4537693854299718
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1020045709608744}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4679358678468540}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4539899528570896
 Transform:
   m_ObjectHideFlags: 1
@@ -2357,7 +2326,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4617183214838116}
-  - {fileID: 4537693854299718}
   - {fileID: 4173887752328328}
   m_Father: {fileID: 4790365107297976}
   m_RootOrder: 0
@@ -2836,42 +2804,6 @@ Camera:
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_RenderingPath: 3
-  m_TargetTexture: {fileID: 0}
-  m_TargetDisplay: 0
-  m_TargetEye: 3
-  m_HDR: 1
-  m_AllowMSAA: 0
-  m_AllowDynamicResolution: 0
-  m_ForceIntoRT: 0
-  m_OcclusionCulling: 1
-  m_StereoConvergence: 10
-  m_StereoSeparation: 0.022
---- !u!20 &20441850627571966
-Camera:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1020045709608744}
-  m_Enabled: 1
-  serializedVersion: 2
-  m_ClearFlags: 3
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
-  m_NormalizedViewPortRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
-  near clip plane: 0.3
-  far clip plane: 1000
-  field of view: 60
-  orthographic: 0
-  orthographic size: 5
-  m_Depth: 0
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 4096
   m_RenderingPath: 3
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -3441,24 +3373,24 @@ MonoBehaviour:
   weaponHolder: {fileID: 4516608942777014}
   minColors:
   - {r: 0, g: 1, b: 0, a: 0}
-  - {r: 0, g: 1, b: 0, a: 0.241}
-  - {r: 0, g: 1, b: 0, a: 0.484}
-  - {r: 0, g: 1, b: 0, a: 0.766}
+  - {r: 0, g: 1, b: 0, a: 0.066}
+  - {r: 0, g: 1, b: 0, a: 0.134}
+  - {r: 0, g: 1, b: 0, a: 0.266}
   maxColors:
-  - {r: 0, g: 1, b: 0, a: 0.347}
-  - {r: 0, g: 1, b: 0, a: 0.566}
-  - {r: 0, g: 1, b: 0, a: 0.797}
-  - {r: 0, g: 1, b: 0, a: 1}
+  - {r: 0, g: 1, b: 0, a: 0.184}
+  - {r: 0, g: 1, b: 0, a: 0.328}
+  - {r: 0, g: 1, b: 0, a: 0.384}
+  - {r: 0, g: 1, b: 0, a: 0.597}
   reflectColors:
   - {r: 0, g: 1, b: 0, a: 0}
   - {r: 0, g: 1, b: 0, a: 0.034}
-  - {r: 0, g: 1, b: 0, a: 0.072}
-  - {r: 0, g: 1, b: 0, a: 0.222}
+  - {r: 0, g: 1, b: 0, a: 0.041}
+  - {r: 0, g: 1, b: 0, a: 0.091}
   hitColors:
-  - {r: 0.9862069, g: 0, b: 0, a: 0.122}
-  - {r: 0.9843138, g: 0, b: 0, a: 0.341}
+  - {r: 0.9862069, g: 0, b: 0, a: 0.322}
+  - {r: 0.9843138, g: 0, b: 0, a: 0.409}
   - {r: 0.9843138, g: 0, b: 0, a: 0.553}
-  - {r: 0.9843138, g: 0, b: 0, a: 1}
+  - {r: 0.9843138, g: 0, b: 0, a: 0.741}
   colorLerpSpeeds:
   - 0.5
   - 1
@@ -3494,18 +3426,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   profile: {fileID: 11400000, guid: e5f79aebe05f4f1489bca437b7ddf53b, type: 2}
---- !u!114 &114860208745008564
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1020045709608744}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff26db721962cdf4a8edcdfa9a767d2a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  profile: {fileID: 11400000, guid: f5caf7cde1ee5644caf77359097c3fa9, type: 2}
 --- !u!120 &120254727844585862
 LineRenderer:
   m_ObjectHideFlags: 1
@@ -3545,7 +3465,7 @@ LineRenderer:
   - {x: 0, y: 0, z: 2}
   m_Parameters:
     serializedVersion: 2
-    widthMultiplier: 0.21
+    widthMultiplier: 0.23
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -3633,7 +3553,7 @@ LineRenderer:
   - {x: 0, y: 0, z: 2}
   m_Parameters:
     serializedVersion: 2
-    widthMultiplier: 0.15
+    widthMultiplier: 0.2
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -3721,7 +3641,7 @@ LineRenderer:
   - {x: 0, y: 0, z: 2}
   m_Parameters:
     serializedVersion: 2
-    widthMultiplier: 0.1
+    widthMultiplier: 0.2
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -3809,7 +3729,7 @@ LineRenderer:
   - {x: 0, y: 0, z: 2}
   m_Parameters:
     serializedVersion: 2
-    widthMultiplier: 0.05
+    widthMultiplier: 0.2
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -3864,13 +3784,6 @@ Behaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1196514126232302}
-  m_Enabled: 1
---- !u!124 &124437528665234998
-Behaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1020045709608744}
   m_Enabled: 1
 --- !u!136 &136281577755008006
 CapsuleCollider:

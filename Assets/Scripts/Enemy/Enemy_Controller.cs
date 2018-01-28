@@ -11,10 +11,14 @@ public class Enemy_Controller : MonoBehaviour
     public Enemy_Weapon weapon;
     public Animator animator;
     public Transform player;    // TODO: Remove?
-    public Transform fireTarget;
     public Transform[] waypoints;
 
     public Camera mainCam;
+
+    public AudioSource speachAudio;
+    public AudioClip[] spawnClips;
+    public AudioClip[] attackClips;
+    public AudioClip[] killPlayerClips;
 
     public float rotationSpeed = 5f;
 
@@ -35,7 +39,6 @@ public class Enemy_Controller : MonoBehaviour
         }
 
         mainCam = Camera.main;
-        fireTarget = mainCam.transform;
         m_motion = animator.GetComponent<Enemy_Animator_RootMotion>();
         m_motion.aimTarget = player;
     }
@@ -74,6 +77,8 @@ public class Enemy_Controller : MonoBehaviour
         m_currentState = EnterState_Idle;
     }
 
+    #region States
+
     private void EnterState_Idle()
     {
         //Debug.Log("Enter state Idle; t: " + Time.time);
@@ -82,8 +87,6 @@ public class Enemy_Controller : MonoBehaviour
         //m_fireTimer = 5f;
         m_currentState = State_Idle;
     }
-
-    #region States
 
     private void State_Idle()
     {
@@ -95,11 +98,17 @@ public class Enemy_Controller : MonoBehaviour
         //    ExitState_Idle(EnterState_Attack);
         //}
 
-        ExitState_Idle(EnterState_Move);
+        if (Level_Manager.Instance.CurrentGameState == Level_Manager.GameState.Play)
+        {
+            ExitState_Idle(EnterState_Move);
+        }
     }
 
     private void ExitState_Idle(State targetState)
     {
+        speachAudio.clip = spawnClips[Random.Range(0, spawnClips.Length)];
+        speachAudio.Play();
+
         m_currentState = targetState;
     }
 
@@ -117,6 +126,9 @@ public class Enemy_Controller : MonoBehaviour
 
         //transform.rotation = m_motion.animRootRotation;
 
+        speachAudio.clip = attackClips[Random.Range(0, attackClips.Length)];
+        speachAudio.Play();
+
         if (angle < 10f)
         {
             m_motion.applyFireAnimCorrection = true;
@@ -128,7 +140,12 @@ public class Enemy_Controller : MonoBehaviour
 
     private void State_Attack()
     {
-        weapon.muzzle.LookAt(fireTarget.position + CalculateWeaponSpread());
+        if (Level_Manager.Instance.CurrentGameState == Level_Manager.GameState.GameOver)
+        {
+            ExitState_Attack(EnterState_Idle);
+        }
+
+        weapon.muzzle.LookAt(mainCam.transform.position + CalculateWeaponSpread(0.5f));
         weapon.Fire();
 
         if (m_fireTimer < 0)
@@ -166,6 +183,13 @@ public class Enemy_Controller : MonoBehaviour
 
     private void State_Move()
     {
+        if (Level_Manager.Instance.CurrentGameState == Level_Manager.GameState.GameOver)
+        {
+            ExitState_Move(EnterState_Idle);
+            speachAudio.clip = killPlayerClips[Random.Range(0, killPlayerClips.Length)];
+            speachAudio.Play();
+        }
+
         Vector3 targetDir = waypoints[m_curWaypointID].position - transform.position;
         Quaternion targetRotation = Quaternion.LookRotation(targetDir);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
@@ -188,11 +212,10 @@ public class Enemy_Controller : MonoBehaviour
     }
     #endregion  // ~States
 
-    public Vector3 CalculateWeaponSpread()
+    public Vector3 CalculateWeaponSpread(float amount)
     {
-        // TODO: Calc clip planes
-
-        Vector3 spread = Vector3.one * 0.1f;
+        amount = Mathf.Clamp01(amount);
+        Vector3 spread = mainCam.ViewportToWorldPoint(Vector3.one * 0.5f) * amount;
 
         return new Vector3(Random.Range(-spread.x, spread.x), Random.Range(-spread.y, spread.y), 0);
     }

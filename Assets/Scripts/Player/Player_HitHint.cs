@@ -13,6 +13,7 @@ public class Player_HitHint : MonoBehaviour
     private List<Transform> m_incomingProjectiles;
     private Transform m_curProjectile;
 
+    private Color m_fullWhite = new Color(1.0f, 1.0f, 1.0f, 0.7f);
     private Color m_whiteAlpha = new Color(1.0f, 1.0f, 1.0f, 0.0f);
 
     private int m_hintLayer;
@@ -48,8 +49,8 @@ public class Player_HitHint : MonoBehaviour
             if (m_curProjectile != null)
             {
                 float t = Vector3.Distance(m_curProjectile.position, transform.position) / hintDistance;
-                hintIcon.transform.localScale = Vector3.Lerp(Vector3.one * 0.7f, Vector3.one * 0.1f, t);
-                hintIcon.color = Color.Lerp(Color.white, m_whiteAlpha, t);
+                hintIcon.transform.localScale = Vector3.Lerp(Vector3.one * 0.5f, Vector3.one * 0.1f, t);
+                hintIcon.color = Color.Lerp(m_fullWhite, m_whiteAlpha, t);
             }
             else
             {
@@ -68,7 +69,7 @@ public class Player_HitHint : MonoBehaviour
 
             if (Physics.Raycast(m_curProjectile.position, m_curProjectile.forward, out hit, hintDistance, m_hintLayer))
             {
-                Debug.DrawLine(m_curProjectile.position, hit.point);
+                //Debug.DrawLine(m_curProjectile.position, hit.point);
                 DrawHint();
             }
         }
@@ -77,7 +78,7 @@ public class Player_HitHint : MonoBehaviour
     public void DrawHint()
     {
         m_hintFadeTimer = hintFadeTime;
-        hintIcon.color = Color.white;
+        hintIcon.color = m_fullWhite;
         hintIcon.transform.position = Camera.main.WorldToScreenPoint(m_curProjectile.position);
         m_hintEnabled = true;
     }

@@ -6,6 +6,9 @@ public class Enemy_Weapon : MonoBehaviour
 {
     public Transform muzzle;
 
+    public AudioSource fireAudioSource;
+    public AudioClip[] fireClips;
+
     [Tooltip("Rounds fired per minute")]
     public int rateOfFire = 60;
 
@@ -53,6 +56,9 @@ public class Enemy_Weapon : MonoBehaviour
             m_projectiles[m_curProjectileID % m_projectiles.Length].Fire(muzzle.position, muzzle.rotation);
             m_curProjectileID++;
             m_fireTimer = m_fireDelay;
+
+            fireAudioSource.clip = fireClips[Random.Range(0, fireClips.Length)];
+            fireAudioSource.Play();
         }
     }
 }

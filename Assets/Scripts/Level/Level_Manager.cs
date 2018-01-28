@@ -8,11 +8,12 @@ public class Level_Manager : MonoBehaviour
     public delegate void StateChangeHandler(GameState state);
     public event StateChangeHandler onChangeState;
 
-    public enum GameState { Play, Win, GameOver }
+    public enum GameState { None, Play, Win, GameOver, Menu, Count }
 
     public GameObject playStateUI;
     public GameObject winStateUI;
     public GameObject gameOverStateUI;
+    public GameObject mainMenuUI;
 
     public GameObject[] hudObjects;
 
@@ -37,6 +38,8 @@ public class Level_Manager : MonoBehaviour
 
     private static Level_Manager m_instance = null;
 
+    private WaitForSeconds m_waitForMenuDelay;
+
     public static Level_Manager Instance
     {
         get
@@ -60,12 +63,12 @@ public class Level_Manager : MonoBehaviour
         }
 
         activeSpawners = new List<Level_EnemySpawner>();
+        m_waitForMenuDelay = new WaitForSeconds(5f);
     }
 
     private void Start()
     {
-        m_score = 0;
-        m_spawnedEnemies = 0;
+        ResetLevel();
 
         if(m_totalEnemies <= 0)
         {
@@ -76,7 +79,7 @@ public class Level_Manager : MonoBehaviour
         gameOverStateUI.SetActive(false);
         winStateUI.SetActive(false);
 
-        StartCoroutine(StartGameDelayed());
+        ChangeGameState(GameState.Menu);
     }
 
     IEnumerator StartGameDelayed()
@@ -88,6 +91,14 @@ public class Level_Manager : MonoBehaviour
         activeSpawners.Add(enemySpawners[spawnerID]);
         activeSpawners[spawnerID].enabled = true;
         activeSpawners[spawnerID].SpawnEnemy(true);
+    }
+
+    public void ResetLevel()
+    {
+        activeSpawners.Clear();
+        m_score = 0;
+        m_spawnedEnemies = 0;
+        scoreText.text = m_score.ToString();
     }
 
     public void AddScore(int scoreAmount)
@@ -119,11 +130,15 @@ public class Level_Manager : MonoBehaviour
         }
 
         ChangeGameState(GameState.Win);
+
+        yield return m_waitForMenuDelay;
+
+        ChangeGameState(GameState.Menu);
     }
 
     public void SetHealth(float healthPercent)
     {
-        Vector3 scaleAmount = new Vector3(healthPercent, healthbar.localScale.y, healthbar.localScale.z);
+        Vector3 scaleAmount = new Vector3(Mathf.Lerp(0f, 0.5f, healthPercent), healthbar.localScale.y, healthbar.localScale.z);
         healthbar.localScale = scaleAmount;
 
         if(healthPercent <= 0)
@@ -143,18 +158,28 @@ public class Level_Manager : MonoBehaviour
                 gameOverStateUI.SetActive(false);
                 winStateUI.SetActive(false);
                 ToggleHUD(true);
+                mainMenuUI.SetActive(false);
                 break;
             case GameState.Win:
                 playStateUI.SetActive(false);
                 gameOverStateUI.SetActive(false);
                 winStateUI.SetActive(true);
                 ToggleHUD(false);
+                mainMenuUI.SetActive(false);
                 break;
             case GameState.GameOver:
                 playStateUI.SetActive(false);
                 gameOverStateUI.SetActive(true);
                 winStateUI.SetActive(false);
                 ToggleHUD(false);
+                mainMenuUI.SetActive(false);
+                break;
+            case GameState.Menu:
+                playStateUI.SetActive(false);
+                gameOverStateUI.SetActive(false);
+                winStateUI.SetActive(false);
+                ToggleHUD(false);
+                mainMenuUI.SetActive(true);
                 break;
             default:
                 break;
@@ -190,5 +215,17 @@ public class Level_Manager : MonoBehaviour
         {
             onChangeState(state);
         }
+    }
+
+    public void CloseMenu()
+    {
+        ResetLevel();
+        mainMenuUI.SetActive(false);
+        StartCoroutine(StartGameDelayed());
+    }
+
+    public void ExitLevel()
+    {
+        Application.Quit();
     }
 }
