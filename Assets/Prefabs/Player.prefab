@@ -3560,6 +3560,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 20
   wapon: {fileID: 114804288349296722}
+  mainPostProfile: {fileID: 11400000, guid: e5f79aebe05f4f1489bca437b7ddf53b, type: 2}
 --- !u!114 &114818838596631716
 MonoBehaviour:
   m_ObjectHideFlags: 1
