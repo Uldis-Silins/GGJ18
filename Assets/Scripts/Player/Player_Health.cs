@@ -9,7 +9,13 @@ public class Player_Health : MonoBehaviour
 
     private int m_curHealth;
 
-    // Use this for initialization
+    private Transform m_mainCamTransform;
+
+    private void Awake()
+    {
+        m_mainCamTransform = Camera.main.transform;
+    }
+
     void OnEnable()
     {
         m_curHealth = maxHealth;
@@ -49,5 +55,10 @@ public class Player_Health : MonoBehaviour
     {
         m_curHealth = maxHealth;
         Level_Manager.Instance.SetHealth((float)m_curHealth / maxHealth);
+    }
+
+    public void Shake()
+    {
+
     }
 }

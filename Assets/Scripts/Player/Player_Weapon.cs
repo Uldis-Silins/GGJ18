@@ -151,7 +151,7 @@ public class Player_Weapon : MonoBehaviour
 
     IEnumerator EnableSabre()
     {
-        for (int c = 1; c <= 3; c++)
+        for (int c = 1; c <= 2; c++)
         {
             for (int i = 0; i < saberLines.Length; i++)
             {

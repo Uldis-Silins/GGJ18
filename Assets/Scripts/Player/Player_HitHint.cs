@@ -18,6 +18,9 @@ public class Player_HitHint : MonoBehaviour
 
     private int m_hintLayer;
 
+    private Camera mainCam;
+    private Quaternion m_defaultCamRotation;
+
     public List<Transform> IncomingProjectiles
     {
         get { return m_incomingProjectiles; }
@@ -26,6 +29,7 @@ public class Player_HitHint : MonoBehaviour
     private void Awake()
     {
         m_incomingProjectiles = new List<Transform>();
+        mainCam = Camera.main;
     }
 
     private void Start()
@@ -36,6 +40,8 @@ public class Player_HitHint : MonoBehaviour
         hintIcon.color = m_whiteAlpha;
         m_hintFadeTimer = hintFadeTime;
         m_hintEnabled = false;
+
+        m_defaultCamRotation = mainCam.transform.rotation;
 
         Level_Manager.Instance.hitHint = this;
     }
@@ -73,6 +79,8 @@ public class Player_HitHint : MonoBehaviour
                 DrawHint();
             }
         }
+
+        RotateCamera();
     }
 
     public void DrawHint()
@@ -115,5 +123,24 @@ public class Player_HitHint : MonoBehaviour
                 m_curProjectile = m_incomingProjectiles[i];
             }
         }
+    }
+
+    private void RotateCamera()
+    {
+        Quaternion lookRot = mainCam.transform.rotation;
+
+        if (m_curProjectile != null)
+        {
+            if (Vector3.Distance(m_curProjectile.position, mainCam.transform.position) > 7f)
+            {
+                lookRot = Quaternion.LookRotation(m_curProjectile.position - transform.position);
+            }
+        }
+        else
+        {
+            lookRot = m_defaultCamRotation;
+        }
+
+        mainCam.transform.rotation = Quaternion.Slerp(mainCam.transform.rotation, lookRot, 0.5f * Time.deltaTime);
     }
 }
