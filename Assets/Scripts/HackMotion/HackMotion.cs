@@ -44,6 +44,8 @@ public class HackMotion: MonoBehaviour
         }
     }
 
+    public bool Initialized { get { return m_initialized; } }
+
     public delegate void DeviceStateHandler();
 
     /// <summary>

@@ -55,6 +55,10 @@ public class Player_MoveRightArm : MonoBehaviour
 
             m_prevInput = motion.Positions[((HackMotion.SensorID)1)];
         }
+        else
+        {
+            m_connected = motion.Initialized;
+        }
         //if (Level_Manager.Instance.CurrentGameState == Level_Manager.GameState.Play)
         //{
         //    float xInput = (Input.mousePosition.x - Screen.width / 2) * xSpeed;
@@ -79,6 +83,7 @@ public class Player_MoveRightArm : MonoBehaviour
 
     void MotionConnectedCallback()
     {
+        Debug.Log("Connected callback");
         m_connected = true;
     }
 }
