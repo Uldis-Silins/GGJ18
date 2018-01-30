@@ -40,7 +40,6 @@ public class Player_MoveRightArm : MonoBehaviour
     // Update is called once per frame
     void Update ()
     {
-#if MOTION_ON
         if (m_connected)
         {
             for (int i = 1; i < 5; i++)
@@ -56,7 +55,6 @@ public class Player_MoveRightArm : MonoBehaviour
 
             m_prevInput = motion.Positions[((HackMotion.SensorID)1)];
         }
-#endif
         //if (Level_Manager.Instance.CurrentGameState == Level_Manager.GameState.Play)
         //{
         //    float xInput = (Input.mousePosition.x - Screen.width / 2) * xSpeed;
