@@ -15,9 +15,11 @@ public class Player_MoveRightArm : MonoBehaviour
     private Player_Weapon_Audio m_audio;
 
     private Vector3 m_prevInput;
+    private bool m_connected;
 
     private void Awake()
     {
+        motion.onDeviceStartStream += MotionConnectedCallback;
         m_audio = GetComponent<Player_Weapon_Audio>();
     }
 
@@ -29,23 +31,33 @@ public class Player_MoveRightArm : MonoBehaviour
         m_prevInput = Vector2.zero;
 
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+    private void OnDestroy()
     {
-        for (int i = 1; i < 5; i++)
+        motion.onDeviceStartStream -= MotionConnectedCallback;
+    }
+
+    // Update is called once per frame
+    void Update ()
+    {
+#if MOTION_ON
+        if (m_connected)
         {
-            jointTransforms[i - 1].localPosition = motion.m_positions[((HackMotion.SensorID)i)];
-            jointTransforms[i - 1].localRotation = motion.m_rotations[((HackMotion.SensorID)i)];
+            for (int i = 1; i < 5; i++)
+            {
+                jointTransforms[i - 1].localPosition = motion.Positions[((HackMotion.SensorID)i)];
+                jointTransforms[i - 1].localRotation = motion.Rotations[((HackMotion.SensorID)i)];
+                Debug.Log(motion.Positions[(HackMotion.SensorID)i]);
+            }
+
+            if (Vector3.Distance(motion.Positions[((HackMotion.SensorID)1)], m_prevInput) > 0.01f)
+            {
+                m_audio.SetState(Player_Weapon_Audio.ClipStates.Move);
+            }
+
+            m_prevInput = motion.Positions[((HackMotion.SensorID)1)];
         }
-
-        if (Vector3.Distance(motion.m_positions[((HackMotion.SensorID)1)], m_prevInput) > 0.01f)
-        {
-            m_audio.SetState(Player_Weapon_Audio.ClipStates.Move);
-        }
-
-        m_prevInput = motion.m_positions[((HackMotion.SensorID)1)];
-
+#endif
         //if (Level_Manager.Instance.CurrentGameState == Level_Manager.GameState.Play)
         //{
         //    float xInput = (Input.mousePosition.x - Screen.width / 2) * xSpeed;
@@ -66,5 +78,10 @@ public class Player_MoveRightArm : MonoBehaviour
     {
         //jointTransforms[0].localRotation = Quaternion.Euler(m_defaultShoulderRotation - input);
         //jointTransforms[1].localRotation = Quaternion.Euler(m_defaultArmRotation - (input * 0.3f));
+    }
+
+    void MotionConnectedCallback()
+    {
+        m_connected = true;
     }
 }

@@ -6,8 +6,14 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 0
-    path: Assets/Scenes/Preloader.unity
-  - enabled: 0
-    path: Assets/Scenes/UnityLabs01.unity
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
-    path: Assets/Scenes/TheLabs.unity
+    path: Assets/Scenes/Main.unity
+    guid: 569494585ea21a041b958dad9bdf9068
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
