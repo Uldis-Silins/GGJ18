@@ -44,12 +44,18 @@ public class Player_Weapon : MonoBehaviour
 
     private void OnEnable()
     {
-        Level_Manager.Instance.onChangeState += HandleGameStateChange;
+        if (Level_Manager.Instance != null)
+        {
+            Level_Manager.Instance.onChangeState += HandleGameStateChange;
+        }
     }
 
     private void OnDisable()
     {
-        Level_Manager.Instance.onChangeState -= HandleGameStateChange;
+        if (Level_Manager.Instance != null)
+        {
+            Level_Manager.Instance.onChangeState -= HandleGameStateChange;
+        }
     }
 
     // Update is called once per frame

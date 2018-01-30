@@ -41,12 +41,18 @@ public class Player_Health : MonoBehaviour
     {
         m_curHealth = maxHealth;
 
-        Level_Manager.Instance.onChangeState += HandleGameStart;
+        if (Level_Manager.Instance != null)
+        {
+            Level_Manager.Instance.onChangeState += HandleGameStart;
+        }
     }
 
     private void OnDisable()
     {
-        Level_Manager.Instance.onChangeState -= HandleGameStart;
+        if (Level_Manager.Instance != null)
+        {
+            Level_Manager.Instance.onChangeState -= HandleGameStart;
+        }
     }
 
     private void OnDrawGizmos()

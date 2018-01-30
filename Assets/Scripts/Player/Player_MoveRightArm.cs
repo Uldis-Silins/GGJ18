@@ -47,7 +47,6 @@ public class Player_MoveRightArm : MonoBehaviour
             {
                 jointTransforms[i - 1].localPosition = motion.Positions[((HackMotion.SensorID)i)];
                 jointTransforms[i - 1].localRotation = motion.Rotations[((HackMotion.SensorID)i)];
-                Debug.Log(motion.Positions[(HackMotion.SensorID)i]);
             }
 
             if (Vector3.Distance(motion.Positions[((HackMotion.SensorID)1)], m_prevInput) > 0.01f)

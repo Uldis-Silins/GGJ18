@@ -90,7 +90,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 0.97626144, g: 0.97626144, b: 0.97626144, a: 1}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColorUI: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColorWithMapUI: {r: 0.80645907, g: 0.8714095, b: 0.89411765, a: 1}
     - _MetaDiffuseAdd: {r: 0, g: 0, b: 0, a: 1}
